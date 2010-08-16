@@ -1,6 +1,5 @@
 import sys
 import pickle
-import pika
 import random
 import asyncore
 import uuid
