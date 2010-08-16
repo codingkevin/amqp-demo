@@ -1,1 +1,5 @@
 This is a collection of code used to play around with AMQP.
+
+It demonstrates differences between using py-amqplib and pika. It also shows the differences
+between using a DI container such as Spring Python to centralize the configuration settings,
+and having the settings managed in separate scripts.
