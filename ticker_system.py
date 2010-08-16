@@ -32,7 +32,7 @@ class Ticker(object):
             quote = self.get_quote()
             print("New quote is %s" % str(quote))
             self.publisher.publish(pickle.dumps((quote[0], quote[1], time.strftime(self.time_format, quote[2]), quote[3])), routing_key="")
-            secs = random.randint(1,5)
+            secs = random.uniform(0.1, 0.5)
             #print("Sleeping %s seconds..." % secs)
             time.sleep(secs)
         

@@ -70,15 +70,21 @@ class Buyer(object):
                 print "Cash is now %s" % self.cash
                 del self.holdings[symbol]
 
-    def handle_delivery(self, ch, method, header, body):
+    def handle_pyamqplib_delivery(self, msg):
+        self.handle(msg.delivery_info["channel"], msg.delivery_info["delivery_tag"], msg.body)
+ 
+    def handle_pika_delivery(self, ch, method, header, body):
+        self.handle(ch, delivery_tag, body)
+
+    def handle(self, ch, delivery_tag, body):
         quote = pickle.loads(body)
         #print "New price for %s => %s at %s" % quote
-        ch.basic_ack(delivery_tag = method.delivery_tag)
+        ch.basic_ack(delivery_tag = delivery_tag)
         print "Received message %s" % quote[3]
         self.decide_whether_to_buy_or_sell(quote)
 
     def monitor(self):
-        self.client.monitor(self.qname, self.handle_delivery)
+        self.client.monitor(self.qname, self.handle_pyamqplib_delivery)
 
 if __name__ == "__main__":
     ctx = ApplicationContext(AppContext())

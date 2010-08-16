@@ -1,6 +1,6 @@
 import pika
 
-class Publisher(object):
+class PikaPublisher(object):
     def __init__(self, exchange_name):
         self.exchange_name = exchange_name
         self.exchange_exists = False
