@@ -81,11 +81,3 @@ class Buyer(object):
 
     def monitor(self):
         self.client.monitor(self.qname, self.handle_pyamqplib_delivery)
-
-if __name__ == "__main__":
-    from amqplib_client import *
-    publisher = PyAmqpLibPublisher(exchange_name="my_exchange")
-
-    buyer = Buyer(publisher, "", trend=25)
-    print "Buyer = %s" % id(buyer)
-    buyer.monitor()
