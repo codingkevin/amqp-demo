@@ -4,10 +4,6 @@ import random
 import asyncore
 import uuid
 
-from springpython.context import *
-from springpython.config import *
-from context import *
-
 class Buyer(object):
     def __init__(self, client, qname, trend=5):
         self.holdings = {}
@@ -87,5 +83,9 @@ class Buyer(object):
         self.client.monitor(self.qname, self.handle_pyamqplib_delivery)
 
 if __name__ == "__main__":
-    ctx = ApplicationContext(AppContext())
-    ctx.get_object("rabbitmq_listener").monitor()
+    from amqplib_client import *
+    publisher = PyAmqpLibPublisher(exchange_name="my_exchange")
+
+    buyer = Buyer(publisher, "", trend=25)
+    print "Buyer = %s" % id(buyer)
+    buyer.monitor()
