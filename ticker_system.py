@@ -1,6 +1,5 @@
 import pickle
 import random
-import sys
 import time
 
 class Ticker(object):

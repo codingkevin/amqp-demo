@@ -1,7 +1,5 @@
-import sys
 import pickle
 import random
-import asyncore
 import uuid
 
 class Buyer(object):
