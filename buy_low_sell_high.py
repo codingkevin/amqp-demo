@@ -68,7 +68,7 @@ class Buyer(object):
         self.handle(msg.delivery_info["channel"], msg.delivery_info["delivery_tag"], msg.body)
  
     def handle_pika_delivery(self, ch, method, header, body):
-        self.handle(ch, delivery_tag, body)
+        self.handle(ch, method.delivery_tag, body)
 
     def handle(self, ch, delivery_tag, body):
         quote = pickle.loads(body)
@@ -78,4 +78,4 @@ class Buyer(object):
         self.decide_whether_to_buy_or_sell(quote)
 
     def monitor(self):
-        self.client.monitor(self.qname, self.handle_pyamqplib_delivery)
+        self.client.monitor(self.qname, self.handle_pika_delivery)
