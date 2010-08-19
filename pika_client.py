@@ -3,7 +3,6 @@ import pika
 class PikaPublisher(object):
     def __init__(self, exchange_name):
         self.exchange_name = exchange_name
-        self.exchange_exists = False
         self.queue_exists = False
 
     def publish(self, message, routing_key):
@@ -13,10 +12,7 @@ class PikaPublisher(object):
 
         ch = conn.channel()
 
-        if not self.exchange_exists:
-            print "Creating fanout exchange %s" % self.exchange_name
-            ch.exchange_declare(exchange=self.exchange_name, type="fanout", durable=False, auto_delete=False)
-            self.exchange_exists = True
+        ch.exchange_declare(exchange=self.exchange_name, type="fanout", durable=False, auto_delete=False)
 
         ch.basic_publish(exchange=self.exchange_name,
                          routing_key=routing_key,

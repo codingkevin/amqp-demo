@@ -3,7 +3,6 @@ from amqplib import client_0_8 as amqp
 class PyAmqpLibPublisher(object):
     def __init__(self, exchange_name):
         self.exchange_name = exchange_name
-        self.exchange_exists = False
         self.queue_exists = False
 
     def publish(self, message, routing_key):
@@ -11,10 +10,7 @@ class PyAmqpLibPublisher(object):
 
         ch = conn.channel()
 
-        if not self.exchange_exists:
-            print "Creating fanout exchange %s" % self.exchange_name
-            ch.exchange_declare(exchange=self.exchange_name, type="fanout", durable=False, auto_delete=False)
-            self.exchange_exists = True
+        ch.exchange_declare(exchange=self.exchange_name, type="fanout", durable=False, auto_delete=False)
 
         msg = amqp.Message(message)
         msg.properties["content_type"] = "text/plain"
